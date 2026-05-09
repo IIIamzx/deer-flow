@@ -4,6 +4,7 @@
 
 BASH ?= bash
 BACKEND_UV_RUN = cd backend && uv run
+PNPM ?= $(shell command -v pnpm >/dev/null 2>&1 && printf pnpm || { command -v corepack >/dev/null 2>&1 && printf 'corepack pnpm'; })
 
 # Detect OS for Windows compatibility
 ifeq ($(OS),Windows_NT)
@@ -66,7 +67,7 @@ install:
 	@echo "Installing backend dependencies..."
 	@cd backend && uv sync
 	@echo "Installing frontend dependencies..."
-	@cd frontend && pnpm install
+	@cd frontend && $(PNPM) install
 	@echo "Installing pre-commit hooks..."
 	@$(BACKEND_UV_RUN) --with pre-commit pre-commit install
 	@echo "✓ All dependencies installed"
