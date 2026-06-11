@@ -58,8 +58,6 @@ Fixes #
        Backend:   cd backend  && make lint && make test
        Frontend:  cd frontend && pnpm format && pnpm lint && pnpm typecheck && BETTER_AUTH_SECRET=local-dev-secret pnpm build && make test
        Frontend E2E (if you touched frontend/): cd frontend && make test-e2e -->
-
-
 ## AI assistance
 
 <!-- DeerFlow is an AI project — most PRs here use AI coding tools, and that's
@@ -72,4 +70,3 @@ Fixes #
      "AI wrote tests, I wrote the impl". A prompt or conversation link is great too. -->
 
 - [ ] I've read and understand every line of this change and take responsibility for it — it's not unreviewed AI output.
-

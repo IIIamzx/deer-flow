@@ -29,21 +29,6 @@ set -e
 REPO_ROOT="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd -P)"
 cd "$REPO_ROOT"
 
-# ── Tool resolution ─────────────────────────────────────────────────────────
-
-find_pnpm_cmd() {
-    if command -v pnpm >/dev/null 2>&1; then
-        echo "pnpm"
-    elif command -v corepack >/dev/null 2>&1; then
-        echo "corepack pnpm"
-    else
-        echo "pnpm is required. Install pnpm or enable Corepack." >&2
-        exit 1
-    fi
-}
-
-PNPM_CMD="$(find_pnpm_cmd)"
-
 # ── Load .env ────────────────────────────────────────────────────────────────
 
 if [ -f "$REPO_ROOT/.env" ]; then
@@ -298,13 +283,13 @@ fi
 
 # Frontend command
 if $DEV_MODE; then
-    FRONTEND_CMD="$PNPM_CMD run dev"
+    FRONTEND_CMD="pnpm run dev"
 else
     if ! PYTHON_BIN="$(_pick_python)"; then
         echo "Python is required to generate BETTER_AUTH_SECRET."
         exit 1
     fi
-    FRONTEND_CMD="env BETTER_AUTH_SECRET=$($PYTHON_BIN -c 'import secrets; print(secrets.token_hex(16))') $PNPM_CMD run preview"
+    FRONTEND_CMD="env BETTER_AUTH_SECRET=$($PYTHON_BIN -c 'import secrets; print(secrets.token_hex(16))') pnpm run preview"
 fi
 
 # Runtime path defaults. Local `make dev` launches Gateway from `backend/`,
